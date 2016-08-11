@@ -23,11 +23,6 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class NetWorkHelper {
 	
-	public static void main(String[] args) {
-		String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa8fb8598c1d323b1&redirect_uri=http%3A%2F%2Fcrmtest.365mdd.com%2Foauth.action&response_type=code&scope=snsapi_base&state=app#wechat_redirect";
-		String result = NetWorkHelper.sendRequest(url);
-	}
-
 	/**
 	 * <p>Description: 发送http请求,默认使用get方法</p>
 	 * @author dmeng

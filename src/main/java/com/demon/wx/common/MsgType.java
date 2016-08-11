@@ -15,6 +15,8 @@ public enum MsgType {
 	SHORTVIDEO,
 	LOCALTION,
 	LINK,
-	EVENT;
+	EVENT,
+	MUSIC,
+	NEWS;
 	
 }

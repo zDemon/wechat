@@ -16,6 +16,7 @@ import org.dom4j.io.SAXReader;
 
 import com.demon.wx.common.EventType;
 import com.demon.wx.common.MsgType;
+import com.demon.wx.entity.Music;
 
 /**
  * <p>Title: MessageHandler</p>
@@ -91,7 +92,23 @@ public class MessageHandler {
 			String mediaId = "_2vZB3Em2BqVrUFgs9OEgjrxon_nD6jUO6AnTyWHhyziGGZihPBx9gBDbQI02tKr";
 			responseMsg = buildImageMessage(map, mediaId);
 			break;
+		case "音乐" : 
+			Music music = new Music();
+			music.setTitle("泠鸢yousa - 黑猫.mp3");
+			music.setDescription("泠鸢yousa填词 黑猫");
+			music.setMusicUrl("http://demon.vip.natapp.cn/material/yousa_heimao.mp3");
+			music.setHqMusicUrl("http://demon.vip.natapp.cn/material/yousa_heimao.mp3");
+			responseMsg = buildMusicMessage(map, music);
+			break;
+		case "语音" :
+			String voiceMediaId = "tRtEUlibZWIqzjjxavKPGSKO8pEkXMqS8yrqY1wMzrMr74briEESbhyfDAGWYpKq"; // 薛之谦 - 演员.mp3
+			responseMsg = buildVoiceMessage(map, voiceMediaId);
+			break;
+		case "视频" :
+			
+			break;
 		default :
+			responseMsg = buildTextMessage(map, "你这消息我没法接(๑•́₃•̀๑)");
 			break;
 		}
 		return responseMsg;
@@ -196,6 +213,41 @@ public class MessageHandler {
 						"<Image>" +
 						"<MediaId><![CDATA[%s]]></MediaId>" + 
 						"</Image>" +
+				"</xml>",  
+				fromUserName, toUserName, getUtcTime(), mediaId);
+	}
+	
+	private static String buildMusicMessage(Map<String, String> map, Music music) {
+		String fromUserName = map.get("FromUserName");
+		String toUserName = map.get("ToUserName");	
+		return String.format(
+				"<xml>" + 
+						"<ToUserName><![CDATA[%s]]></ToUserName>" +
+						"<FromUserName><![CDATA[%s]]></FromUserName>" + 
+						"<CreateTime>%s</CreateTime>" +
+						"<MsgType><![CDATA[%s]]></MsgType>" +
+						"<Music>" +
+						"<Title><![CDATA[%s]]></Title>" + 
+						"<Description><![CDATA[%s]]></Description>" + 
+						"<MusicUrl><![CDATA[%s]]></MusicUrl>" + 
+						"<HQMusicUrl><![CDATA[%s]]></HQMusicUrl>" + 
+						"</Music>" +
+				"</xml>",  
+				fromUserName, toUserName, getUtcTime(), music.getMsgType(), music.getTitle(), music.getDescription(), music.getMusicUrl(), music.getHqMusicUrl());
+	}
+	
+	private static String buildVoiceMessage(Map<String, String> map, String mediaId) {
+		String fromUserName = map.get("FromUserName");
+		String toUserName = map.get("ToUserName");	
+		return String.format(
+				"<xml>" + 
+						"<ToUserName><![CDATA[%s]]></ToUserName>" +
+						"<FromUserName><![CDATA[%s]]></FromUserName>" + 
+						"<CreateTime>%s</CreateTime>" +
+						"<MsgType><![CDATA[voice]]></MsgType>" +
+						"<Voice>" +
+						"<MediaId><![CDATA[%s]]></MediaId>" + 
+						"</Voice>" +
 				"</xml>",  
 				fromUserName, toUserName, getUtcTime(), mediaId);
 	}

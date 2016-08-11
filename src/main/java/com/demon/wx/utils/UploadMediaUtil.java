@@ -8,59 +8,95 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
+import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.demon.wx.common.Constants;
+import com.demon.wx.common.MediaType;
 
 public class UploadMediaUtil {
 	
-	public static String uploadImage(String url, String accessToken, File file, String type) {
+	/**
+	 * <p>Description: 微信服务器素材上传</p>
+	 * @author dmeng
+	 * @date 2016年8月11日 下午4:59:37
+	 * @param url
+	 * @param accessToken
+	 * @param file
+	 * @param type type只支持四种类型素材(video/image/voice/thumb)
+	 * @return
+	 */
+	public static JSONObject uploadMedia(String accessToken, File file, String type) {
 		HttpClient client = new HttpClient();
-		url = String.format(url, accessToken, type);
-		System.out.println(url);
+		String url = String.format(Constants.UPLOAD_IMAGE_URL, accessToken, type);
 		PostMethod post = new PostMethod(url);
 		post.setRequestHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:30.0) Gecko/20100101 Firefox/30.0");
 		post.setRequestHeader("Host", "file.api.weixin.qq.com");
 		post.setRequestHeader("Connection", "Keep-Alive");
 		post.setRequestHeader("Cache-Control", "no-cache");
-		String result = "";
+		JSONObject json = new JSONObject(); 
 		try {
 			if(file == null || !file.exists()) {
 				throw new Exception("文件不存在");
 			}
 			// FilePart：用来上传文件的类,file即要上传的文件
-			FilePart filePart = new FilePart("media", file, "iamge/jpeg", "UTF-8");
-			Part[] parts = new Part[]{filePart};
+			FilePart media = new FilePart("media", file);
+			Part[] parts = new Part[]{new StringPart("access_token", accessToken), new StringPart("type", type), media};
 			// 对于MIME类型的请求，httpclient建议全用MulitPartRequestEntity进行包装
 			MultipartRequestEntity entity = new MultipartRequestEntity(parts, post.getParams());
 			post.setRequestEntity(entity);
 			// 如果文件很大可以设置超时时间，默认为0表示不超时，单位是毫秒
-			client.getHttpConnectionManager().getParams().setConnectionTimeout(5000);
+			//client.getHttpConnectionManager().getParams().setConnectionTimeout(5000);
+			System.out.println(">>>>准备就绪，开始上传。。。");
 			int status = client.executeMethod(post);
 			if(status == HttpStatus.SC_OK) {
 				String retStr = post.getResponseBodyAsString();
-				JSONObject json = JSON.parseObject(retStr);
+				json = JSON.parseObject(retStr);
 				if(json != null && json.getInteger("errcode") == null) {
 					System.out.println("上传成功！");
-					result = json.getString("media_id");
 				}
+			} else {
+				System.out.println("上传失败，状态：" + status);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return result;
+		return json;
+	}
+	
+	public static JSONObject uploadMedia(String filePath, String mediaType) {
+		JSONObject json = new JSONObject();
+		if(StringUtils.isBlank(filePath) || StringUtils.isBlank(mediaType)) {
+			json.put("errcode", 1);
+			json.put("errmsg", "参数错误");
+		} else {
+			File file = new File(filePath);
+			String accessToken = getAccessToken();
+			json = uploadMedia(accessToken, file, mediaType);
+		}
+		return json;
 	}
 	
 	public static void main(String[] args) {
-		String accessTokenUrl = Constants.GET_ACCESS_TOKEN_URL;
-		accessTokenUrl = String.format(accessTokenUrl, Constants.APP_ID, Constants.APP_SECRET);
+		//String imagePath = "D:\\Workspaces\\wechat\\src\\main\\webapp\\material\\miku.jpg";
+		//String voicePath = "D:\\Workspaces\\wechat\\src\\main\\webapp\\material\\yanyuan.mp3";
+		String videoPath = "E:\\av2565074.mp4";
+		JSONObject json = uploadMedia(videoPath, MediaType.VIDEO.getType());
+		System.out.println(json);
+	}
+	
+	/**
+	 * <p>Description: 获取access_token</p>
+	 * @author dmeng
+	 * @date 2016年8月11日 下午3:49:41
+	 * @return
+	 */
+	public static String getAccessToken() {
+		String accessTokenUrl = String.format(Constants.GET_ACCESS_TOKEN_URL, Constants.APP_ID, Constants.APP_SECRET);
 		String result = NetWorkHelper.sendRequest(accessTokenUrl);
-		System.out.println("获取到的AccessToken>" + result);    
 		JSONObject json = JSON.parseObject(result);
-		String accessToken = json.getString("access_token");
-		File file = new File("E:\\pic\\下限酱171.jpg");
-		String mediaId = uploadImage(Constants.UPLOAD_IMAGE_URL, accessToken, file, "image");
-		System.out.println(mediaId);
+		return json.getString("access_token");
 	}
 }
