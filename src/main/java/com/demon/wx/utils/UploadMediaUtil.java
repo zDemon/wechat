@@ -80,10 +80,10 @@ public class UploadMediaUtil {
 	}
 	
 	public static void main(String[] args) {
-		//String imagePath = "D:\\Workspaces\\wechat\\src\\main\\webapp\\material\\miku.jpg";
-		//String voicePath = "D:\\Workspaces\\wechat\\src\\main\\webapp\\material\\yanyuan.mp3";
-		String videoPath = "E:\\av2565074.mp4";
-		JSONObject json = uploadMedia(videoPath, MediaType.VIDEO.getType());
+		String path = "E:\\pic\\WallPapers\\miku.jpg"; // DMA3mMrpY7tQL1kofI7GTBRFeavMpZEsh285ZlzrhYKEWehQyNBFLRmF40RfnfIS
+		//String path = "D:\\Workspaces\\wechat\\src\\main\\webapp\\material\\yanyuan.mp3";
+		//String path = "C:\\Users\\365\\Documents\\狸窝\\全能视频转换器\\RememberTheName_3.mp4";
+		JSONObject json = uploadMedia(path, MediaType.IMAGE.getType());
 		System.out.println(json);
 	}
 	
