@@ -1,5 +1,7 @@
 package com.demon.wx.entity;
 
+import java.util.Date;
+
 public class BaseMessage {
 	
 	/** 接收方帐号（收到的OpenID） */
@@ -9,7 +11,7 @@ public class BaseMessage {
 	protected String fromUserName;
 	
 	/** 消息创建时间 （整型） */
-	protected Long createTime;
+	protected Long createTime = new Date().getTime();
 	
 	/** 消息类型  com.demon.wx.common.MsgType */
 	protected String msgType;

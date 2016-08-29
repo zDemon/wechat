@@ -33,7 +33,7 @@ public class MessageHandler {
 	/**
 	 * <p>Description: 解析微信发来的xml消息</p>
 	 * @author dmeng
-	 * @date 2016年7月20日 下午5:39:19
+	 * @date 2016年7月20日 下午5:39:19 
 	 * @param request
 	 * @return
 	 * @throws Exception

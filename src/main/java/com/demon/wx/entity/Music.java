@@ -2,6 +2,12 @@ package com.demon.wx.entity;
 
 import com.demon.wx.common.MsgType;
 
+/**
+ * <p>Title: Music</p>
+ * <p>Description: </p>
+ * @author dmeng
+ * @date 2016年8月29日 上午11:58:29
+ */
 public class Music extends BaseMessage {
 
 	private String title;			// 音乐标题

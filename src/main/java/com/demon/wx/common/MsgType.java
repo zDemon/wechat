@@ -19,4 +19,14 @@ public enum MsgType {
 	MUSIC,
 	NEWS;
 	
+	/**
+	 * <p>Description: 获取小写的类型名称</p>
+	 * @author dmeng
+	 * @date 2016年8月29日 上午11:48:15
+	 * @return
+	 */
+	public String getType() {
+		return this.toString().toLowerCase();
+	}
+	
 }

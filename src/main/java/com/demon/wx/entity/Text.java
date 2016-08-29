@@ -14,8 +14,10 @@ public class Text extends BaseMessage {
 	private String content;
 
 	
-	public Text() {
+	
+	public Text(String content) {
 		super();
+		this.content = content;
 		this.msgType = MsgType.TEXT.toString().toLowerCase();
 	}
 

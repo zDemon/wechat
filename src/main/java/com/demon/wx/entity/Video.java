@@ -2,6 +2,12 @@ package com.demon.wx.entity;
 
 import com.demon.wx.common.MsgType;
 
+/**
+ * <p>Title: Video</p>
+ * <p>Description: </p>
+ * @author dmeng
+ * @date 2016年8月29日 上午11:58:13
+ */
 public class Video extends BaseMessage {
 
 	private String mediaId;			// 通过素材管理接口上传多媒体文件，得到的id required
