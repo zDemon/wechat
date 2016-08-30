@@ -1,6 +1,8 @@
 package com.demon.wx.entity;
 
-import com.demon.wx.common.MsgType;
+import java.util.Map;
+
+import com.demon.wx.common.MessageType;
 
 /**
  * <p>Title: Voice</p>
@@ -10,22 +12,30 @@ import com.demon.wx.common.MsgType;
  */
 public class Voice extends BaseMessage {
 
-	private String mediaId;
+	private String MediaId;
 
-	public Voice(String mediaId) {
+	public Voice() {
 		super();
-		this.mediaId = mediaId;
-		this.msgType = MsgType.VOICE.getType();
+		this.MsgType = MessageType.VOICE.getType();
+	}
+	
+	public Voice(Map<String, String> map) {
+		super(map);
+		this.MsgType = MessageType.VOICE.getType();
+	}
+	
+	public Voice(Map<String, String> map, String mediaId) {
+		super(map);
+		this.MediaId = mediaId;
+		this.MsgType = MessageType.VOICE.getType();
 	}
 
 	public String getMediaId() {
-		return mediaId;
+		return MediaId;
 	}
 
 	public void setMediaId(String mediaId) {
-		this.mediaId = mediaId;
+		MediaId = mediaId;
 	}
-	
-	
-	
+
 }

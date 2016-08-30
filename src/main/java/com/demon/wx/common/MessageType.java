@@ -6,7 +6,7 @@ package com.demon.wx.common;
  * @author dmeng
  * @date 2016年7月21日 上午10:47:39
  */
-public enum MsgType {
+public enum MessageType {
 
 	TEXT,
 	IMAGE,

@@ -1,51 +1,69 @@
 package com.demon.wx.entity;
 
 import java.util.Date;
+import java.util.Map;
+
+import com.demon.wx.utils.MessageHandler;
 
 public class BaseMessage {
 	
 	/** 接收方帐号（收到的OpenID） */
-	protected String toUserName;
+	protected String ToUserName;
 	
 	/** 开发者微信号 */
-	protected String fromUserName;
+	protected String FromUserName;
 	
 	/** 消息创建时间 （整型） */
-	protected Long createTime = new Date().getTime();
+	protected Long CreateTime = new Date().getTime();
 	
-	/** 消息类型  com.demon.wx.common.MsgType */
-	protected String msgType;
+	/** 消息类型  com.demon.wx.common.MessageType */
+	protected String MsgType;
+	
+	public BaseMessage() {
+		super();
+	}
+
+	public BaseMessage(Map<String, String> map) {
+		super();
+		this.FromUserName = map.get("ToUserName");
+		this.ToUserName = map.get("FromUserName");
+	}
+
+	public String toXML() {
+		return MessageHandler.msgToXML(this);
+	}
 
 	public String getToUserName() {
-		return toUserName;
+		return ToUserName;
 	}
 
 	public void setToUserName(String toUserName) {
-		this.toUserName = toUserName;
+		ToUserName = toUserName;
 	}
 
 	public String getFromUserName() {
-		return fromUserName;
+		return FromUserName;
 	}
 
 	public void setFromUserName(String fromUserName) {
-		this.fromUserName = fromUserName;
+		FromUserName = fromUserName;
 	}
 
 	public Long getCreateTime() {
-		return createTime;
+		return CreateTime;
 	}
 
 	public void setCreateTime(Long createTime) {
-		this.createTime = createTime;
+		CreateTime = createTime;
 	}
-	
+
 	public String getMsgType() {
-		return msgType;
+		return MsgType;
 	}
 
 	public void setMsgType(String msgType) {
-		this.msgType = msgType;
+		MsgType = msgType;
 	}
+
 	
 }
